@@ -13,15 +13,22 @@ def execute():
         data = request.json
         filename = data["filename"]
         input_filename = data["input_filename"]
+        language_name = data["language_name"]
         file = ""
-
-        print(filename, input_filename)
+        stdout = ""
+        stderr = ""
+        
         with open(input_filename, "rb") as f:
             file = f.read()
 
-        output = subprocess.run(["java", filename], input=file, capture_output=True)
-        stdout = output.stdout.decode().strip()
-        stderr = output.stderr.decode().strip()
+        if language_name == "Java":
+            output = subprocess.run(["java", filename], input=file, capture_output=True)
+            stdout = output.stdout.decode().strip()
+            stderr = output.stderr.decode().strip()
+        else:
+            output = subprocess.run(["python3", filename], input=file, capture_output=True)
+            stdout = output.stdout.decode().strip()
+            stderr = output.stderr.decode().strip()
 
         if len(stderr) > len(stdout):
             return jsonify({"output": stderr})
