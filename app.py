@@ -1,7 +1,11 @@
 from flask import Flask, jsonify, request
 import subprocess
+import logging
 
 app = Flask(__name__)
+
+# Logging configuration
+logging.basicConfig(format="{asctime} - {levelname} - {message}", style="{", datefmt="%Y-%m-%d %H:%M:%S")
 
 @app.post("/execute")
 def execute():
@@ -25,7 +29,7 @@ def execute():
             return jsonify({"output": stdout})
         
     except Exception as e:
-        print(e)
+        logging.info(e)
         return jsonify({"output": "something went wrong"}), 500
 
 if __name__ == "__main__":
