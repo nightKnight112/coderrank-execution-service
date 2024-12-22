@@ -36,7 +36,7 @@ def execute():
             return jsonify({"output": stdout})
         
     except Exception as e:
-        logging.info(e)
+        logging.error(e)
         return jsonify({"output": "something went wrong"}), 500
 
 if __name__ == "__main__":
