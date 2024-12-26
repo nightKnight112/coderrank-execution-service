@@ -10,6 +10,7 @@ logging.basicConfig(format="{asctime} - {levelname} - {message}", style="{", dat
 
 @app.post("/execute")
 def execute():
+    logging.debug(f"{request.method} - {request.url} - {request.json}")
     try:
         data = request.json
         code = data["code"]
