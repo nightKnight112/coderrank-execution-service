@@ -22,20 +22,20 @@ def execute():
 
         filename = ""
 
-        os.makedirs(os.path.dirname(f"/home/anurag/codes/{user_uuid}/"), exist_ok=True)
-        with open(f"/home/anurag/codes/{user_uuid}/input.txt", "w") as f:
+        os.makedirs(os.path.dirname(f"/home/codes/{user_uuid}/"), exist_ok=True)
+        with open(f"/home/codes/{user_uuid}/input.txt", "w") as f:
             f.write(input)
 
         if language_name == "Java":
-            filename = f"/home/anurag/codes/{user_uuid}/Solution.java"
+            filename = f"/home/codes/{user_uuid}/Solution.java"
             with open(filename, "w") as f:
                 f.write(code)
         elif language_name == "Python":
-            filename = f"/home/anurag/codes/{user_uuid}/solution.py"
+            filename = f"/home/codes/{user_uuid}/solution.py"
             with open(filename, "w") as f:
                 f.write(code)
         
-        with open(f"/home/anurag/codes/{user_uuid}/input.txt", "rb") as f:
+        with open(f"/home/codes/{user_uuid}/input.txt", "rb") as f:
             file = f.read()
 
         if language_name == "Java":
