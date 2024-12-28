@@ -22,31 +22,47 @@ def execute():
         stderr = ""
 
         filename = ""
+        logging.debug(f"{code}, {language_name}, {user_uuid}, {input}")
 
         os.makedirs(os.path.dirname(f"/home/codes/{user_uuid}/"), exist_ok=True)
         with open(f"/home/codes/{user_uuid}/input.txt", "w") as f:
+            logging.debug(f"Writing input to /home/codes/{user_uuid}/input.txt")
             f.write(input)
 
         if language_name == "Java":
             filename = f"/home/codes/{user_uuid}/Solution.java"
             with open(filename, "w") as f:
+                logging.debug(f"Writing java code to /home/codes/{user_uuid}/Solution.java")
                 f.write(code)
         elif language_name == "Python":
             filename = f"/home/codes/{user_uuid}/solution.py"
             with open(filename, "w") as f:
+                logging.debug(f"Writing python code to /home/codes/{user_uuid}/solution.py")
                 f.write(code)
         
         with open(f"/home/codes/{user_uuid}/input.txt", "rb") as f:
             file = f.read()
 
         if language_name == "Java":
-            output = subprocess.run(["java", filename], input=file, capture_output=True)
-            stdout = output.stdout.decode().strip()
-            stderr = output.stderr.decode().strip()
+            try:
+                output = subprocess.run(["java", filename], input=file, capture_output=True)
+                stdout = output.stdout.decode().strip()
+                stderr = output.stderr.decode().strip()
+            except Exception as e:
+                logging.error(e)
+                logging.error("Error in running java code")
         else:
-            output = subprocess.run(["python3", filename], input=file, capture_output=True)
-            stdout = output.stdout.decode().strip()
-            stderr = output.stderr.decode().strip()
+            try:
+                output = subprocess.run(["python3", filename], input=file, capture_output=True)
+                stdout = output.stdout.decode().strip()
+                stderr = output.stderr.decode().strip()
+            except Exception as e:
+                logging.error(e)
+                logging.error("Error in running python code")
+
+        logging.debug(f"stdout: {stdout}")
+        logging.debug(f"stderr: {stderr}")
+        logging.debug(f"output: {stdout if len(stderr) < len(stdout) else stderr}")
 
         if len(stderr) > len(stdout):
             return jsonify({"output": stderr})
