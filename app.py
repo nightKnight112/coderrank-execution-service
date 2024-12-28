@@ -2,8 +2,10 @@ from flask import Flask, jsonify, request
 import subprocess
 import logging
 import os
+from flask_cors import CORS
 
 app = Flask(__name__)
+CORS(app, supports_credentials=True)
 
 # Logging configuration
 logging.basicConfig(format="{asctime} - {levelname} - {message}", style="{", datefmt="%Y-%m-%d %H:%M:%S")
