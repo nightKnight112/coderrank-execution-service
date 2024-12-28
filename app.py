@@ -12,7 +12,7 @@ logging.basicConfig(format="{asctime} - {levelname} - {message}", style="{", dat
 
 @app.post("/execute")
 def execute():
-    logging.debug(f"{request.method} - {request.url} - {request.json}")
+    logging.error(f"{request.method} - {request.url} - {request.json}")
     try:
         data = request.json
         code = data["code"]
@@ -24,22 +24,22 @@ def execute():
         stderr = ""
 
         filename = ""
-        logging.debug(f"{code}, {language_name}, {user_uuid}, {input}")
+        logging.error(f"{code}, {language_name}, {user_uuid}, {input}")
 
         os.makedirs(os.path.dirname(f"/home/codes/{user_uuid}/"), exist_ok=True)
         with open(f"/home/codes/{user_uuid}/input.txt", "w") as f:
-            logging.debug(f"Writing input to /home/codes/{user_uuid}/input.txt")
+            logging.error(f"Writing input to /home/codes/{user_uuid}/input.txt")
             f.write(input)
 
         if language_name == "Java":
             filename = f"/home/codes/{user_uuid}/Solution.java"
             with open(filename, "w") as f:
-                logging.debug(f"Writing java code to /home/codes/{user_uuid}/Solution.java")
+                logging.error(f"Writing java code to /home/codes/{user_uuid}/Solution.java")
                 f.write(code)
         elif language_name == "Python":
             filename = f"/home/codes/{user_uuid}/solution.py"
             with open(filename, "w") as f:
-                logging.debug(f"Writing python code to /home/codes/{user_uuid}/solution.py")
+                logging.error(f"Writing python code to /home/codes/{user_uuid}/solution.py")
                 f.write(code)
         
         with open(f"/home/codes/{user_uuid}/input.txt", "rb") as f:
@@ -62,9 +62,9 @@ def execute():
                 logging.error(e)
                 logging.error("Error in running python code")
 
-        logging.debug(f"stdout: {stdout}")
-        logging.debug(f"stderr: {stderr}")
-        logging.debug(f"output: {stdout if len(stderr) < len(stdout) else stderr}")
+        logging.error(f"stdout: {stdout}")
+        logging.error(f"stderr: {stderr}")
+        logging.error(f"output: {stdout if len(stderr) < len(stdout) else stderr}")
 
         if len(stderr) > len(stdout):
             return jsonify({"output": stderr})
